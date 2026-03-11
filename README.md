@@ -1,7 +1,9 @@
 Text-to-SQL Generation with Fine-tuned DeepSeek Coder
 Project Overview
 
-This project focuses on fine-tuning an open-source large language model to convert natural language questions into SQL queries.
+After fine-tuning GPT-4o-mini, I wanted to see if I could get similar results using a fully open-source model with no API costs. I used DeepSeek Coder 1.3B with LoRA and 4-bit quantization to make training fit on a Kaggle T4 GPU — and watched the training loss drop from 5.74 down to 0.21. The experience of tuning a small open model from scratch was worth every bit of it.
+
+  ---
 
 Instead of relying on proprietary models like GPT-4 or Claude, I explored the open-source ecosystem to build a cost-effective and privacy-friendly solution that can run locally.
 
