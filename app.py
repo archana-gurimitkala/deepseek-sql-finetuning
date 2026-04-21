@@ -54,9 +54,10 @@ Convert this question to SQL.
             pad_token_id=tokenizer.eos_token_id,
         )
 
-    decoded = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    response = decoded.split("### Response:")[-1].strip()
-    sql = response.split("\n")[0].strip()
+    input_len = inputs["input_ids"].shape[1]
+    new_tokens = outputs[0][input_len:]
+    decoded = tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
+    sql = decoded.split("\n")[0].strip()
     return sql
 
 
