@@ -58,11 +58,20 @@ Convert this question to SQL.
     new_tokens = outputs[0][input_len:]
     decoded = tokenizer.decode(new_tokens, skip_special_tokens=True)
     decoded = decoded.replace("Ġ", " ").replace("Ċ", "\n").strip()
+
+    # Stop at semicolon if present
     if ";" in decoded:
-        sql = decoded.split(";")[0].strip() + ";"
+        return decoded.split(";")[0].strip() + ";"
+
+    # Stop at any new SQL statement keyword
+    import re
+    match = re.search(r'\b(CREATE|INSERT|DROP|ALTER|USE|END|##)\b', decoded, re.IGNORECASE)
+    if match:
+        sql = decoded[:match.start()].strip()
     else:
         sql = decoded.split("\n")[0].strip()
-    return sql
+
+    return sql if sql else decoded.strip()
 
 
 with gr.Blocks(title="DeepSeek SQL") as demo:
