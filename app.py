@@ -57,7 +57,11 @@ Convert this question to SQL.
     input_len = inputs["input_ids"].shape[1]
     new_tokens = outputs[0][input_len:]
     decoded = tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
-    sql = decoded.split("\n")[0].strip()
+    # Take everything up to and including the first semicolon
+    if ";" in decoded:
+        sql = decoded.split(";")[0].strip() + ";"
+    else:
+        sql = decoded.split("\n")[0].strip()
     return sql
 
 
